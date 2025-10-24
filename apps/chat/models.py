@@ -1,8 +1,8 @@
-# chat/models.py
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import uuid
+
 
 class ChatRoom(models.Model):
     ROOM_TYPES = (
@@ -32,6 +32,7 @@ class ChatRoom(models.Model):
     def online_count(self):
         return self.roommembership_set.filter(is_online=True).count()
 
+
 class RoomMembership(models.Model):
     ROLES = (
         ('admin', 'Admin'),
@@ -52,6 +53,7 @@ class RoomMembership(models.Model):
     
     def __str__(self):
         return f"{self.user.username} in {self.room}"
+
 
 class Message(models.Model):
     MESSAGE_TYPES = (
@@ -79,6 +81,7 @@ class Message(models.Model):
     def __str__(self):
         return f"Message from {self.sender.username} in {self.room}"
 
+
 class MessageReadStatus(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='read_statuses')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -89,6 +92,7 @@ class MessageReadStatus(models.Model):
     
     def __str__(self):
         return f"{self.user.username} read message {self.message.id}"
+
 
 class TypingIndicator(models.Model):
     room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE, related_name='typing_users')

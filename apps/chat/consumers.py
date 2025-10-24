@@ -6,6 +6,7 @@ from django.utils import timezone
 from .models import ChatRoom, RoomMembership, Message, TypingIndicator, MessageReadStatus
 from .serializers import MessageSerializer, UserSerializer
 from django.contrib.auth.models import User
+from django.db import models
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
