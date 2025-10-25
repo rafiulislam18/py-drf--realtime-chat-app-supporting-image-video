@@ -27,6 +27,11 @@ SECRET_KEY = 'django-insecure-wemsxn6yc$cu!jehzghoe4ng%&@&o9-n^3-(-n((+cm2rog4o%
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'https://8f88f3903252.ngrok-free.app'
+]
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Application definition
@@ -42,16 +47,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third-party packages
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'drf_yasg',
 
     # Custom apps
     'apps.chat',
+    'apps.users',
 ]
 
 MIDDLEWARE = [
+    # add corse middleware
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -168,4 +179,16 @@ SIMPLE_JWT = {
     
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
 }
